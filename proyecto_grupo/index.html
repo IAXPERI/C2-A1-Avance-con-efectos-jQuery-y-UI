@@ -1,1 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Burger Club - Smash Burgers, Combos Urbanos & Reservas">
+  <title>BURGER CLUB | Urban Grill & Lounge</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
 
+<!-- Barra de navegación minimalista -->
+<header class="topbar">
+  <a class="brand" href="#inicio">
+    <span class="brand-mark">BC</span>
+    <span class="brand-text">
+      BURGER <b>CLUB</b>
+      <small>URBAN GRILL · EST. 2026</small>
+    </span>
+  </a>
+
+  <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
+
+  <nav id="mainNav">
+    <a href="#inicio">Inicio</a>
+    <a href="#menu">Catálogo</a>
+    <a href="#pedido">Pedido / Reserva</a>
+    <a href="#nosotros">Nosotros</a>
+    <a href="#contacto">Redes & Empresa</a>
+  </nav>
+
+  <div class="topbar-actions">
+    <button class="promo-btn" id="togglePromoBtn" type="button" title="Ver promoción nocturna">🔥 Promo</button>
+    <button class="cart-top" id="goCart" type="button">
+      <span>🛒</span>
+      <span class="cart-label">Pedido</span>
+      <b id="cartCount">0</b>
+    </button>
+  </div>
+</header>
+
+<!-- Banner desplegable con .fadeToggle() -->
+<div class="promo-banner" id="promoBanner" style="display:none;">
+  <div class="promo-inner">
+    <span class="promo-tag">🔥 NOCHE BURGER CLUB</span>
+    <p><strong>2x1 en Doble Smash Cheddar</strong> todos los jueves de 19:00 a 22:00 en salón y reservas grupales.</p>
+    <button class="promo-close" id="closePromoBtn" type="button">Cerrar ×</button>
+  </div>
+</div>
+
+<main>
+  <!-- HERO URBANO -->
+  <section class="hero" id="inicio">
+    <div class="hero-copy">
+      <div class="badge-row">
+        <span class="eyebrow">🔥 PARRILLA URBANA & SMASH BURGERS</span>
+        <span class="status-pill" id="storeStatusPill">● Abierto hoy</span>
+      </div>
+      <h1>Fuego real.<br><em>Actitud nocturna.</em></h1>
+      <p>Carne seleccionada a la plancha de hierro, pan brioche tostado en mantequilla, salsas de autor y el ambiente urbano definitivo de Burger Club.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#menu">Explorar Catálogo</a>
+        <a class="btn ghost" href="#pedido">Hacer Pedido / Reserva</a>
+      </div>
+      <div class="hero-metrics">
+        <div><strong>+12</strong><span>Creaciones de autor</span></div>
+        <div><strong>15 min</strong><span>Preparación al momento</span></div>
+        <div><strong>4.9 ★</strong><span>Calificación de clientes</span></div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-photo">
+        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1200&q=85" alt="Hamburguesa artesanal Burger Club">
+      </div>
+      <div class="hero-floating-card">
+        <span class="floating-badge">★ TOP VENTAS</span>
+        <strong>Smoky Bourbon BBQ</strong>
+        <small>Doble carne · Tocino ahumado · Cheddar</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- VENTAJAS RÁPIDAS -->
+  <section class="quick-info">
+    <div class="info-item">
+      <span class="info-icon">🔥</span>
+      <div>
+        <strong>Técnica Smash Grill</strong>
+        <small>Costra caramelizada y jugosidad única</small>
+      </div>
+    </div>
+    <div class="info-item">
+      <span class="info-icon">⚡</span>
+      <div>
+        <strong>Catálogo Interactivo</strong>
+        <small>Filtra por categoría, precio o ingredientes</small>
+      </div>
+    </div>
+    <div class="info-item">
+      <span class="info-icon">📍</span>
+      <div>
+        <strong>Salón Lounge & Delivery</strong>
+        <small>Pide a domicilio o reserva tu mesa grupal</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATÁLOGO INTERACTIVO CON JQUERY -->
+  <section class="section menu-section" id="menu">
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">CATÁLOGO INTERACTIVO</span>
+        <h2>Nuestro <em>Menú & Combos</em></h2>
+        <p>Filtra dinámicamente por categoría, ordena por precio o despliega la ficha de ingredientes de cada producto.</p>
+      </div>
+
+      <div class="catalog-controls">
+        <div class="search-wrap">
+          <span>⌕</span>
+          <input id="searchFood" type="search" placeholder="Buscar burger, combo, bebida...">
+        </div>
+        <select id="sortFood" class="sort-select" aria-label="Ordenar catálogo">
+          <option value="featured">Ordenar: Destacados</option>
+          <option value="price-asc">Precio: Menor a Mayor</option>
+          <option value="price-desc">Precio: Mayor a Menor</option>
+          <option value="name-asc">Nombre: A - Z</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="filters-bar">
+      <div class="filters" id="foodFilters">
+        <button class="filter active" data-category="Todos" type="button">Todos</button>
+        <button class="filter" data-category="Hamburguesas" type="button">🍔 Hamburguesas</button>
+        <button class="filter" data-category="Combos" type="button">🍟 Combos</button>
+        <button class="filter" data-category="Acompañamientos" type="button">🧅 Sides & Snacks</button>
+        <button class="filter" data-category="Bebidas" type="button">🥤 Bebidas & Shakes</button>
+      </div>
+      <div class="catalog-visibility-tools">
+        <button class="btn-chip" id="toggleAllDetails" type="button">Ver/Ocultar ingredientes (.slideToggle)</button>
+        <button class="btn-chip" id="hideCatalogBtn" type="button">Ocultar catálogo (.hide)</button>
+        <button class="btn-chip" id="showCatalogBtn" type="button" style="display:none;">Mostrar catálogo (.show)</button>
+      </div>
+    </div>
+
+    <div class="catalog-counter">
+      Mostrando <strong id="visibleCount">0</strong> opciones en <span id="activeCategoryLabel">Todos</span>
+    </div>
+
+    <div class="food-grid" id="foodGrid"></div>
+
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <p>No encontramos productos que coincidan con tu búsqueda.</p>
+      <button class="btn ghost" id="resetFiltersBtn" type="button">Restablecer catálogo</button>
+    </div>
+  </section>
+
+  <!-- FORMULARIO CON VALIDACIONES COMPLETAS Y CARRITO -->
+  <section class="order-section" id="pedido">
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">CHECKOUT & RESERVAS</span>
+        <h2>Arma tu <em>Pedido o Reserva</em></h2>
+        <p>Selecciona tus productos en el catálogo y completa tus datos con validación en tiempo real.</p>
+      </div>
+    </div>
+
+    <div class="order-layout">
+      <!-- Panel del carrito -->
+      <div class="cart-panel">
+        <div class="panel-title">
+          <div>
+            <h3>Resumen de Selección</h3>
+            <small id="cartItemsLabel">0 productos seleccionados</small>
+          </div>
+          <button class="btn-clear-cart" id="clearCartBtn" type="button">Vaciar</button>
+        </div>
+
+        <div id="cartItems" class="cart-items"></div>
+
+        <div class="cart-summary">
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="cartSubtotal">Bs. 0.00</span>
+          </div>
+          <div class="summary-row" id="deliveryFeeRow" style="display:none;">
+            <span>Envío a domicilio</span>
+            <span id="deliveryFee">Bs. 10.00</span>
+          </div>
+          <div class="cart-total">
+            <span>Total estimado</span>
+            <strong id="cartTotal">Bs. 0.00</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formulario con validación en tiempo real -->
+      <form id="orderForm" class="order-form" novalidate>
+        <div class="form-head">
+          <h3>Datos del Cliente</h3>
+          <span class="form-badge">Validación en vivo</span>
+        </div>
+
+        <div class="form-grid">
+          <div class="field-group">
+            <label for="customerName">Nombre y Apellido *</label>
+            <input name="name" id="customerName" type="text" placeholder="Ej. Mateo Rojas" required>
+            <small class="error" id="nameError"></small>
+          </div>
+
+          <div class="field-group">
+            <label for="customerPhone">Celular (Bolivia - 8 dígitos) *</label>
+            <input name="phone" id="customerPhone" type="tel" inputmode="numeric" placeholder="Ej. 71234567" required>
+            <small class="error" id="phoneError"></small>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="field-group">
+            <label for="customerEmail">Correo electrónico *</label>
+            <input name="email" id="customerEmail" type="email" placeholder="ejemplo@correo.com" required>
+            <small class="error" id="emailError"></small>
+          </div>
+
+          <div class="field-group">
+            <label for="delivery">Modalidad de Servicio *</label>
+            <select name="delivery" id="delivery" required>
+              <option value="">Selecciona una modalidad</option>
+              <option value="Recojo en local">🛍️ Recojo en local (Takeaway)</option>
+              <option value="Entrega a domicilio">🛵 Entrega a domicilio (+Bs. 10)</option>
+              <option value="Reserva de mesa en salón">🍽️ Reserva de mesa en salón</option>
+            </select>
+            <small class="error" id="deliveryError"></small>
+          </div>
+        </div>
+
+        <!-- Campo dinámico para Delivery (usa .show() y .hide()) -->
+        <div class="field-group dynamic-field" id="addressGroup" style="display:none;">
+          <label for="address">Dirección exacta de entrega *</label>
+          <input name="address" id="address" type="text" placeholder="Zona, avenida/calle y número de puerta o referencia">
+          <small class="error" id="addressError"></small>
+        </div>
+
+        <!-- Campo dinámico para Reserva en salón (usa .show() y .hide()) -->
+        <div class="form-grid dynamic-field" id="reservationGroup" style="display:none;">
+          <div class="field-group">
+            <label for="guestsCount">Número de personas (1 - 15) *</label>
+            <input name="guests" id="guestsCount" type="number" min="1" max="15" placeholder="Ej. 4">
+            <small class="error" id="guestsError"></small>
+          </div>
+          <div class="field-group">
+            <label for="reservationTime">Hora de llegada *</label>
+            <input name="time" id="reservationTime" type="time" min="12:00" max="23:00">
+            <small class="error" id="timeError"></small>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="orderNotes">Notas adicionales <span class="optional">(opcional - máx. 140 caracteres)</span></label>
+          <input name="notes" id="orderNotes" type="text" maxlength="140" placeholder="Ej. Sin pepinillos, punto de cocción medio, salsa extra...">
+          <div class="notes-meta">
+            <small class="error" id="notesError"></small>
+            <small class="char-counter"><span id="notesCount">0</span>/140</small>
+          </div>
+        </div>
+
+        <button class="btn primary full" type="submit">Confirmar Pedido / Reserva</button>
+        <p class="form-hint">Proyecto académico interactivo: validación en tiempo real con jQuery.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- NOSOTROS Y ACORDEONES CON .slideToggle() -->
+  <section class="about-section" id="nosotros">
+    <div class="about-image">
+      <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1000&q=85" alt="Cocina urbana de Burger Club">
+      <div class="about-overlay-badge">
+        <strong>100% RES</strong>
+        <span>Molienda fresca diaria</span>
+      </div>
+    </div>
+
+    <div class="about-copy">
+      <span class="eyebrow">IDENTIDAD DE LA MICROEMPRESA</span>
+      <h2>Donde la cultura urbana se <em>une al fuego.</em></h2>
+      <p>Burger Club nace como una microempresa gastronómica especializada en hamburguesas estilo smash y experiencias de salón nocturno. Combinamos ingredientes locales frescos con procesos estandarizados de alta cocina rápida.</p>
+
+      <div class="accordion">
+        <div class="accordion-item">
+          <button class="accordion-title" type="button">
+            <span>01. Nuestra Historia & Concepto</span>
+            <b class="acc-icon">＋</b>
+          </button>
+          <div class="accordion-body">
+            <p>Iniciamos en La Paz con una plancha de hierro fundido y tres recetas clásicas. Hoy somos un punto de encuentro para amigos que buscan calidad artesanal, música urbana y atención ágil tanto en salón como en envíos.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-title" type="button">
+            <span>02. Estándares de Calidad e Ingredientes</span>
+            <b class="acc-icon">＋</b>
+          </button>
+          <div class="accordion-body">
+            <p>Elaboramos nuestro pan de papa y brioche cada mañana, utilizamos cortes seleccionados sin conservantes y preparamos nuestras salsas ahumadas en casa.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-title" type="button">
+            <span>03. Reservas Grupales & Eventos</span>
+            <b class="acc-icon">＋</b>
+          </button>
+          <div class="accordion-body">
+            <p>Contamos con mesas para grupos de hasta 15 personas y combos especiales para cumpleaños o reuniones de equipo, reservables directamente desde nuestro formulario web.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REDES SOCIALES E INTEGRACIÓN EMPRESARIAL -->
+  <section class="contact-section" id="contacto">
+    <div class="company-info">
+      <span class="eyebrow">DATOS FORMALES DE LA MICROEMPRESA</span>
+      <h2>Conecta con <em>Burger Club</em></h2>
+      <p>Consulta nuestra ficha empresarial verificada o interactúa con nuestras comunidades digitales para conocer promociones y lanzamientos.</p>
+
+      <div class="formal-data-card">
+        <div class="formal-header">
+          <div>
+            <h3>BURGER CLUB S.R.L.</h3>
+            <small>Microempresa Gastronómica & Eventos</small>
+          </div>
+          <button class="btn-chip" id="toggleHoursBtn" type="button">Horarios (.fadeToggle)</button>
+        </div>
+
+        <ul class="formal-list">
+          <li><span>Razón Social:</span> <strong>Grupo Gastronómico Burger Club S.R.L.</strong></li>
+          <li><span>NIT (Demo):</span> <strong>3849201023</strong></li>
+          <li><span>Licencia de Funcionamiento:</span> <strong>GAMLP-2026-0841</strong></li>
+          <li><span>Dirección Central:</span> <strong>Av. Montenegro #1420, Zona San Miguel, La Paz - Bolivia</strong></li>
+          <li><span>Teléfono / Central:</span> <strong>+591 712 88990 · (2) 279-4410</strong></li>
+          <li><span>Correo Corporativo:</span> <strong>contacto@burgerclub.bo</strong></li>
+        </ul>
+
+        <!-- Panel de horarios con .fadeToggle() -->
+        <div class="hours-box" id="hoursBox">
+          <h4>🕒 Horarios de Atención</h4>
+          <p>Lunes a Jueves: <strong>12:00 – 22:30</strong></p>
+          <p>Viernes y Sábado: <strong>12:00 – 00:30</strong></p>
+          <p>Domingos y Feriados: <strong>12:30 – 21:30</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección interactiva de Redes Sociales -->
+    <div class="social-hub">
+      <div class="social-hub-head">
+        <h3>Comunidad & Redes Sociales</h3>
+        <p>Haz clic en cualquier red social para previsualizar nuestro perfil oficial o copiar el enlace.</p>
+      </div>
+
+      <div class="social-cards" id="socialCards">
+        <article class="social-card active" data-network="Instagram" data-handle="@burgerclub.bo" data-followers="18.4K seguidores" data-desc="Reels diarios de nuestra parrilla, sorteos semanales y fotos detrás de cocina." data-url="https://instagram.com">
+          <div class="social-icon ig">IG</div>
+          <div class="social-meta">
+            <strong>Instagram</strong>
+            <small>@burgerclub.bo</small>
+          </div>
+          <span class="social-pill">18.4K</span>
+        </article>
+
+        <article class="social-card" data-network="TikTok" data-handle="@burgerclub.oficial" data-followers="42.1K seguidores" data-desc="Retos virales, preparación ASMR de nuestras Smash Burgers y códigos secretos." data-url="https://tiktok.com">
+          <div class="social-icon tk">♪</div>
+          <div class="social-meta">
+            <strong>TikTok</strong>
+            <small>@burgerclub.oficial</small>
+          </div>
+          <span class="social-pill">42.1K</span>
+        </article>
+
+        <article class="social-card" data-network="Facebook" data-handle="/BurgerClubBolivia" data-followers="12.8K seguidores" data-desc="Menú completo, eventos familiares, transmisiones y reseñas de clientes." data-url="https://facebook.com">
+          <div class="social-icon fb">f</div>
+          <div class="social-meta">
+            <strong>Facebook</strong>
+            <small>/BurgerClubBolivia</small>
+          </div>
+          <span class="social-pill">12.8K</span>
+        </article>
+
+        <article class="social-card" data-network="WhatsApp Business" data-handle="+591 71288990" data-followers="Atención en línea" data-desc="Canal directo para consultas de reservas grupales, facturación y pedidos rápidos." data-url="https://wa.me/59171288990">
+          <div class="social-icon wa">💬</div>
+          <div class="social-meta">
+            <strong>WhatsApp</strong>
+            <small>+591 71288990</small>
+          </div>
+          <span class="social-pill">En línea</span>
+        </article>
+      </div>
+
+      <!-- Vista previa interactiva de la red seleccionada -->
+      <div class="social-preview" id="socialPreview">
+        <div class="preview-top">
+          <div>
+            <span class="eyebrow" id="previewNetwork">INSTAGRAM OFICIAL</span>
+            <h4 id="previewHandle">@burgerclub.bo</h4>
+          </div>
+          <strong class="preview-followers" id="previewFollowers">18.4K seguidores</strong>
+        </div>
+        <p id="previewDesc">Reels diarios de nuestra parrilla, sorteos semanales y fotos detrás de cocina.</p>
+        <div class="preview-actions">
+          <a class="btn primary" id="previewLink" href="https://instagram.com" target="_blank" rel="noopener noreferrer">Visitar perfil ↗</a>
+          <button class="btn ghost" id="copySocialBtn" type="button">Copiar usuario</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <a class="brand footer-brand" href="#inicio">
+    <span class="brand-mark">BC</span>
+    <span class="brand-text">
+      BURGER <b>CLUB</b>
+      <small>URBAN GRILL · LA PAZ, BOLIVIA</small>
+    </span>
+  </a>
+  <span>© 2026 Burger Club S.R.L. · Proyecto Grupal con jQuery</span>
+  <a class="back-top" href="#inicio">Volver arriba ↑</a>
+</footer>
+
+<!-- Bitácora interactiva -->
+<aside class="activity" id="activityPanel">
+  <div class="activity-head">
+    <h3>⚡ Bitácora jQuery</h3>
+    <button id="toggleLog" type="button">Ocultar −</button>
+  </div>
+  <div id="activityLog" class="activity-log"></div>
+  <button id="clearLog" class="clear-log" type="button">Limpiar historial</button>
+</aside>
+
+<!-- Toast de notificación -->
+<div class="toast" id="toast" role="status"></div>
+
+<!-- Modal de confirmación -->
+<div class="modal-backdrop" id="confirmModal" style="display:none;">
+  <div class="modal">
+    <button class="modal-close" id="closeModal" type="button">×</button>
+    <span class="eyebrow">ORDEN REGISTRADA CON ÉXITO</span>
+    <h2>¡Gracias por elegir <em>Burger Club!</em></h2>
+    <p id="confirmText"></p>
+    <div class="modal-meta" id="confirmDetails"></div>
+    <button class="btn primary full" id="finishOrder" type="button">Finalizar y cerrar</button>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
