@@ -1,1 +1,1384 @@
+<!-- ej_jquery_jueves.html / ej_ui_viernes.html - Proyecto Integrador LevelUp Arcade Bar -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LevelUp Arcade Bar - UI Completa (Jueves & Viernes)</title>
+    <!-- Librería jQuery 3.7.1 -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        /* =========================================================
+           VARIABLES DE TEMA: MODO CLARO Y MODO OSCURO
+           ========================================================= */
+        :root {
+            --bg-body: #f1f5f9;
+            --bg-container: #ffffff;
+            --bg-card: #f8fafc;
+            --bg-panel: #f1f5f9;
+            --bg-navbar: #1e1b4b;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border-color: #cbd5e1;
+            --accent: #7c3aed;
+            --accent-hover: #6d28d9;
+            --accent-light: rgba(124, 58, 237, 0.12);
+            --card-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+        }
 
+        body.dark-mode {
+            --bg-body: #090d16;
+            --bg-container: #131c31;
+            --bg-card: #1e293b;
+            --bg-panel: #0f172a;
+            --bg-navbar: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --accent: #8b5cf6;
+            --accent-hover: #7c3aed;
+            --accent-light: rgba(139, 92, 246, 0.2);
+            --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.55);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* =========================================================
+           COMPONENTE UI #1: NAVBAR SUPERIOR + TIMER ARRIBA A LA DERECHA
+           ========================================================= */
+        .navbar {
+            background: var(--bg-navbar);
+            color: #ffffff;
+            padding: 14px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #7c3aed;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-top {
+            max-width: 1180px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-area h1 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #fff;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid #10b981;
+            color: #6ee7b7;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 999px;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        /* Temporizador en la Parte Superior Derecha (Oculto al inicio hasta apretar Reservar) */
+        .top-right-timer {
+            display: none;
+            background: #f59e0b;
+            color: #0f172a;
+            border: 2px solid #fbbf24;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            font-family: 'Consolas', monospace;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.45);
+        }
+
+        /* Botón Modo Oscuro */
+        .btn-theme {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-theme:hover {
+            background: #7c3aed;
+            border-color: #a78bfa;
+        }
+
+        /* Botón Menú Hamburguesa */
+        .btn-hamburger {
+            background: #7c3aed;
+            color: #ffffff;
+            border: none;
+            padding: 8px 13px;
+            border-radius: 8px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            cursor: pointer;
+            line-height: 1;
+            transition: background 0.2s ease;
+        }
+
+        .btn-hamburger:hover {
+            background: #6d28d9;
+        }
+
+        /* Menú Desplegable de la Hamburguesa */
+        .nav-menu {
+            display: none;
+            max-width: 1180px;
+            margin: 12px auto 0 auto;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .nav-menu ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .nav-menu a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 600;
+            padding: 8px 14px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            display: inline-block;
+            transition: background 0.2s ease;
+        }
+
+        .nav-menu a:hover {
+            background: #7c3aed;
+            color: #ffffff;
+        }
+
+        /* =========================================================
+           CONTENEDOR PRINCIPAL Y APARTADO DE PROMOCIONES ROTATIVAS
+           ========================================================= */
+        .main-wrapper {
+            max-width: 1180px;
+            margin: 28px auto;
+            padding: 0 20px 40px 20px;
+        }
+
+        .hero-banner {
+            background: var(--bg-container);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px 28px;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .hero-banner h2 {
+            font-size: 1.6rem;
+            margin-bottom: 6px;
+        }
+
+        .hero-banner p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Apartado de Promociones que cambian cada 2 minutos */
+        .promos-section {
+            background: var(--bg-container);
+            border: 2px solid #f59e0b;
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+        }
+
+        .promos-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .promos-header h3 {
+            font-size: 1.15rem;
+            color: #f59e0b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .promo-timer-badge {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid #f59e0b;
+            color: #fbbf24;
+            padding: 5px 12px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            font-family: 'Consolas', monospace;
+        }
+
+        body:not(.dark-mode) .promo-timer-badge {
+            color: #b45309;
+        }
+
+        .promo-slide {
+            display: none;
+            background: var(--bg-card);
+            border-left: 5px solid #f59e0b;
+            border-radius: 12px;
+            padding: 16px 20px;
+        }
+
+        .promo-slide.active-promo {
+            display: block;
+        }
+
+        .promo-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .promo-info h4 {
+            font-size: 1.15rem;
+            margin-bottom: 5px;
+            color: var(--text-main);
+        }
+
+        .promo-info p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .promo-price-box {
+            text-align: right;
+        }
+
+        .promo-price {
+            display: inline-block;
+            background: #10b981;
+            color: #0f172a;
+            font-weight: 800;
+            font-size: 1rem;
+            padding: 7px 14px;
+            border-radius: 8px;
+        }
+
+        .promos-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .promo-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .promo-dot {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .promo-dot.active {
+            background: #f59e0b;
+            color: #0f172a;
+            border-color: #f59e0b;
+        }
+
+        /* Botones de Filtro (.btn-console) */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+
+        .btn-console {
+            background: var(--bg-card);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-console:hover,
+        .btn-console.active {
+            background: var(--accent);
+            color: #ffffff;
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+        }
+
+        /* Layout de Columnas: Catálogo (Izquierda) + Calculador y Resumen (Derecha) */
+        .ui-architecture-grid {
+            display: grid;
+            grid-template-columns: 1.35fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        @media (max-width: 920px) {
+            .ui-architecture-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .ui-box {
+            background: var(--bg-container);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 24px;
+        }
+
+        .ui-box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .ui-box-header h3 {
+            font-size: 1.2rem;
+        }
+
+        .ui-tag {
+            font-size: 0.74rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: var(--accent-light);
+            color: var(--accent);
+        }
+
+        /* =========================================================
+           COMPONENTE UI #2: CATÁLOGO EN TARJETAS + ACORDEÓN JUEVES
+           ========================================================= */
+        .equipo-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-left: 5px solid var(--accent);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 16px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .equipo-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .equipo-card.snacks {
+            border-left-color: #f59e0b;
+        }
+
+        .equipo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .console-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: #ffffff;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .console-badge.badge-pc {
+            background: #0284c7;
+        }
+
+        .console-badge.badge-arcade {
+            background: #e11d48;
+        }
+
+        .console-badge.badge-food {
+            background: #d97706;
+        }
+
+        .equipo-info h4 {
+            font-size: 1.12rem;
+            margin-bottom: 4px;
+        }
+
+        .equipo-info p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        .card-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        /* Botón Acordeón "Ver Detalles" (Jueves) */
+        .accordion-btn {
+            background: var(--accent-light);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 8px 14px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+
+        body.dark-mode .accordion-btn {
+            color: #ddd6fe;
+        }
+
+        .accordion-btn:hover {
+            background: var(--accent);
+            color: #ffffff;
+        }
+
+        /* Botón "Alquilar Hora" (Viernes) */
+        .btn-alquilar {
+            background: #10b981;
+            color: #0f172a;
+            border: none;
+            padding: 8px 14px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .btn-alquilar:hover {
+            background: #34d399;
+        }
+
+        /* Panel Desplegable Acordeón */
+        .accordion-panel {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 12px;
+            line-height: 1.6;
+        }
+
+        .panel-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #0284c7;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        body.dark-mode .panel-title {
+            color: #38bdf8;
+        }
+
+        .specs-list {
+            list-style: none;
+            margin-bottom: 12px;
+            font-size: 0.88rem;
+        }
+
+        .specs-list li {
+            padding: 4px 0;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .price-tag {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .menu-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-left: 3px solid #f59e0b;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 0.84rem;
+        }
+
+        .menu-item h5 {
+            color: #d97706;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+
+        body.dark-mode .menu-item h5 {
+            color: #fbbf24;
+        }
+
+        /* =========================================================
+           COMPONENTE UI #3: CALCULADOR / FORMULARIO Y PANEL SNACKS
+           ========================================================= */
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.86rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-main);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 0.92rem;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--accent);
+        }
+
+        /* Selector visual de Snacks Laterales (Combo Gamer 1, 2 o 3) */
+        .snack-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        .snack-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.86rem;
+            transition: all 0.2s ease;
+        }
+
+        .snack-option:hover,
+        .snack-option.selected {
+            border-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.12);
+        }
+
+        /* =========================================================
+           COMPONENTE UI #4: RESUMEN DE PEDIDO Y CONFIRMACIÓN EN LA MISMA PÁGINA
+           ========================================================= */
+        .resumen-list {
+            list-style: none;
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+        }
+
+        .resumen-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .total-banner {
+            background: var(--bg-panel);
+            border: 2px solid var(--accent);
+            border-radius: 10px;
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .total-banner h4 {
+            font-size: 1.15rem;
+        }
+
+        .total-amount {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #10b981;
+        }
+
+        /* Botón 1: Reservar (Activa el Timer en la esquina superior derecha) */
+        .btn-iniciar-reserva {
+            width: 100%;
+            background: #ea580c;
+            color: #ffffff;
+            border: none;
+            padding: 13px 20px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: background 0.2s ease;
+        }
+
+        .btn-iniciar-reserva:hover {
+            background: #f97316;
+        }
+
+        /* Botón 2: Confirmar Reserva (Termina el Timer y guarda la reserva) */
+        .btn-confirmar {
+            display: none;
+            width: 100%;
+            background: #10b981;
+            color: #0f172a;
+            border: none;
+            padding: 13px 20px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .btn-confirmar:hover {
+            background: #34d399;
+        }
+
+        .msg-error {
+            display: none;
+            margin-bottom: 12px;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.86rem;
+            font-weight: 600;
+        }
+
+        body.dark-mode .msg-error {
+            color: #fca5a5;
+        }
+
+        /* Detalle de Reserva Confirmada en la misma página */
+        .reserva-inline-box {
+            display: none;
+            margin-top: 16px;
+            background: var(--bg-panel);
+            border: 1px solid #10b981;
+            border-left: 4px solid #10b981;
+            border-radius: 10px;
+            padding: 16px;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .reserva-inline-box h4 {
+            color: #10b981;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        /* =========================================================
+           TOAST ALERT FLOTANTE (ESQUINA SUPERIOR DERECHA)
+           ========================================================= */
+        .toast-alert {
+            display: none;
+            position: fixed;
+            top: 78px;
+            right: 24px;
+            z-index: 300;
+            background: #10b981;
+            color: #0f172a;
+            border: 2px solid #059669;
+            padding: 14px 20px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.92rem;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.84rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body class="dark-mode">
+
+    <!-- =========================================================
+         COMPONENTE UI #1: NAVBAR SUPERIOR + TIMER EN PARTE SUPERIOR DERECHA
+         ========================================================= -->
+    <nav class="navbar">
+        <div class="navbar-top">
+            <div class="logo-area">
+                <h1>🕹️ LevelUp Arcade Bar</h1>
+                <span class="status-badge">🟢 Estaciones Disponibles</span>
+            </div>
+
+            <div class="nav-controls">
+                <!-- Temporizador en la Parte Superior Derecha (Aparece recién al apretar Reservar) -->
+                <div id="box-timer" class="top-right-timer">
+                    ⏱️ Tiempo para Confirmar: <span id="mod-timer">00:30s</span>
+                </div>
+
+                <!-- Botón Modo Oscuro / Claro -->
+                <button id="btn-theme" class="btn-theme">☀️ Modo Claro</button>
+
+                <!-- Botón Menú Hamburguesa -->
+                <button id="btn-hamburger" class="btn-hamburger" title="Abrir Menú">☰</button>
+            </div>
+        </div>
+
+        <!-- Menú Desplegable Hamburguesa -->
+        <div id="nav-menu" class="nav-menu">
+            <ul>
+                <li><a href="#promociones" class="nav-link">🔥 Promociones Rotativas</a></li>
+                <li><a href="#catalogo" class="nav-link">🎮 Catálogo de Estaciones</a></li>
+                <li><a href="#zona-snacks" class="nav-link">🍟 Comida y Bebidas Energéticas</a></li>
+                <li><a href="#calculador" class="nav-link">🧮 Calculador de Horas</a></li>
+                <li><a href="#resumen" class="nav-link">🧾 Resumen de Pedido</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Toast Alert Flotante (Esquina Superior Derecha) -->
+    <div id="toast-alert" class="toast-alert"></div>
+
+    <div class="main-wrapper">
+
+        <!-- Encabezado Principal -->
+        <div class="hero-banner">
+            <div>
+                <h2>Panel de Estaciones Gamer, Snack Bar & Reservas</h2>
+                <p>Diseño Web II (C2-A1 & C2-A2) • Acordeones jQuery, Promociones Rotativas y Reserva Directa</p>
+            </div>
+        </div>
+
+        <!-- =========================================================
+             APARTADO DE PROMOCIONES ROTATIVAS (CAMBIAN CADA 2 MINUTOS)
+             ========================================================= -->
+        <div id="promociones" class="promos-section">
+            <div class="promos-header">
+                <h3>🔥 Promociones Especiales Gamer (Rotación Automática)</h3>
+                <span class="promo-timer-badge">🔄 Próxima promoción en: <span id="promo-countdown">02:00</span></span>
+            </div>
+
+            <!-- Promoción 1 -->
+            <div class="promo-slide active-promo" data-index="0">
+                <div class="promo-content">
+                    <div class="promo-info">
+                        <h4>🎮⚡ Promo 1: Dúo Next-Gen PS5 + Monster & Papas</h4>
+                        <p>Incluye 2 Horas en Estación PS5 (EA Sports FC 26 / Tekken 8) + Porción de Papas Cheddar + 1 Monster Energy.</p>
+                    </div>
+                    <div class="promo-price-box">
+                        <span class="promo-price">🔥 Oferta: 118 BOB</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Promoción 2 -->
+            <div class="promo-slide" data-index="1">
+                <div class="promo-content">
+                    <div class="promo-info">
+                        <h4>💻🍟 Promo 2: Maratón eSports PC Gamer 240Hz</h4>
+                        <p>Incluye 3 Horas en PC Gamer Pro (RTX 4070 Super) + Salchipapa Especial LevelUp + Bebida Energética Speed.</p>
+                    </div>
+                    <div class="promo-price-box">
+                        <span class="promo-price">🔥 Oferta: 105 BOB</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Promoción 3 -->
+            <div class="promo-slide" data-index="2">
+                <div class="promo-content">
+                    <div class="promo-info">
+                        <h4>👾🍔 Promo 3: Noche Retro Arcade & Burger LevelUp</h4>
+                        <p>Incluye 2 Horas de Cabina Arcade Free-Play (KOF / Street Fighter) + Burger Doble Carne con Papas + Red Bull.</p>
+                    </div>
+                    <div class="promo-price-box">
+                        <span class="promo-price">🔥 Oferta: 82 BOB</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Barra de Filtros (.btn-console) -->
+        <div class="filter-bar">
+            <button class="btn-console active" data-categoria="todos">✨ Todos los Servicios</button>
+            <button class="btn-console" data-categoria="ps5">🎮 Estación PS5</button>
+            <button class="btn-console" data-categoria="pc">💻 PC Gamer</button>
+            <button class="btn-console" data-categoria="arcade">👾 Cabina Arcade</button>
+            <button class="btn-console" data-categoria="snacks">🍔 Comida & Energizantes</button>
+        </div>
+
+        <!-- =========================================================
+             ESTRUCTURA PRINCIPAL: CATÁLOGO + CALCULADOR + RESUMEN
+             ========================================================= -->
+        <div class="ui-architecture-grid">
+
+            <!-- COLUMNA IZQUIERDA: COMPONENTE UI #2 (CATÁLOGO EN TARJETAS) -->
+            <div id="catalogo" class="ui-box">
+                <div class="ui-box-header">
+                    <h3>🕹️ Catálogo en Tarjetas (Estaciones & Juegos)</h3>
+                    <span class="ui-tag">Componente UI #2</span>
+                </div>
+
+                <!-- Card 1: PS5 -->
+                <div class="equipo-card ps5">
+                    <div class="equipo-header">
+                        <div class="equipo-info">
+                            <span class="console-badge">PS5 • Next-Gen</span>
+                            <h4>🎮 Estación PlayStation 5 (EA Sports FC 26 / Tekken 8)</h4>
+                            <p>Juego competitivo o cooperativo local en resolución 4K nativa a 120Hz.</p>
+                        </div>
+                    </div>
+
+                    <div class="card-actions">
+                        <div class="accordion-btn">📌 Ver Detalles</div>
+                        <button class="btn-alquilar" data-estacion="Estación PS5" data-precio="40">⚡ Alquilar Hora (40 BOB)</button>
+                    </div>
+
+                    <div class="accordion-panel" style="display:none;">
+                        <div class="panel-title">📋 Tarifa y Especificaciones del Equipo</div>
+                        <ul class="specs-list">
+                            <li><strong>Consola:</strong> PlayStation 5 Slim 1TB SSD NVMe</li>
+                            <li><strong>Pantalla:</strong> Smart TV OLED 55" 4K HDR10 @ 120Hz</li>
+                            <li><strong>Periféricos:</strong> 4 Mandos DualSense + Headsets Pulse 3D</li>
+                            <li><strong>Juegos:</strong> EA Sports FC 26, Tekken 8, Mortal Kombat 1, Spider-Man 2</li>
+                        </ul>
+                        <div class="price-tag">💰 Tarifa: 40 BOB / hora (Incluye equipamiento completo)</div>
+                    </div>
+                </div>
+
+                <!-- Card 2: PC Gamer -->
+                <div class="equipo-card pc">
+                    <div class="equipo-header">
+                        <div class="equipo-info">
+                            <span class="console-badge badge-pc">PC GAMER • eSports</span>
+                            <h4>💻 Estación PC Gamer Pro (Valorant / CS2 / Dota 2)</h4>
+                            <p>Equipos de alto rendimiento con monitores de 240Hz para torneos.</p>
+                        </div>
+                    </div>
+
+                    <div class="card-actions">
+                        <div class="accordion-btn">📌 Ver Detalles</div>
+                        <button class="btn-alquilar" data-estacion="PC Gamer Pro" data-precio="25">⚡ Alquilar Hora (25 BOB)</button>
+                    </div>
+
+                    <div class="accordion-panel" style="display:none;">
+                        <div class="panel-title">📋 Tarifa y Especificaciones del Equipo</div>
+                        <ul class="specs-list">
+                            <li><strong>Hardware:</strong> AMD Ryzen 7 7800X3D + NVIDIA RTX 4070 Super 12GB</li>
+                            <li><strong>Memoria & Monitor:</strong> 32GB RAM DDR5 • Monitor IPS 27" 240Hz 1ms</li>
+                            <li><strong>Periféricos:</strong> Teclado Mecánico RGB + Mouse Logitech G Pro Superlight</li>
+                            <li><strong>Juegos:</strong> Valorant, Counter-Strike 2, Dota 2, League of Legends, Fortnite</li>
+                        </ul>
+                        <div class="price-tag">💰 Tarifa: 25 BOB / hora</div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Arcade -->
+                <div class="equipo-card arcade">
+                    <div class="equipo-header">
+                        <div class="equipo-info">
+                            <span class="console-badge badge-arcade">ARCADE • Retro</span>
+                            <h4>👾 Cabina Arcade Fighting (King of Fighters / Street Fighter)</h4>
+                            <p>Máquina multijuegos para 2 jugadores con palancas y botones Sanwa.</p>
+                        </div>
+                    </div>
+
+                    <div class="card-actions">
+                        <div class="accordion-btn">📌 Ver Detalles</div>
+                        <button class="btn-alquilar" data-estacion="Cabina Arcade" data-precio="15">⚡ Alquilar Hora (15 BOB)</button>
+                    </div>
+
+                    <div class="accordion-panel" style="display:none;">
+                        <div class="panel-title">📋 Tarifa y Especificaciones del Equipo</div>
+                        <ul class="specs-list">
+                            <li><strong>Sistema:</strong> Cabina Arcade con Pandora Box DX Pro (5000+ juegos)</li>
+                            <li><strong>Controles:</strong> Palancas japonesas Sanwa JLF + 8 botones por jugador</li>
+                            <li><strong>Clásicos:</strong> KOF '98 y 2002, Street Fighter III, Metal Slug X, Pac-Man</li>
+                        </ul>
+                        <div class="price-tag">💰 Tarifa: 15 BOB / hora (Free Play ilimitado)</div>
+                    </div>
+                </div>
+
+                <!-- Card 4: Zona de Comida y Bebidas Energéticas -->
+                <div id="zona-snacks" class="equipo-card snacks">
+                    <div class="equipo-header">
+                        <div class="equipo-info">
+                            <span class="console-badge badge-food">SNACK & ENERGY BAR</span>
+                            <h4>🍟 Zona de Comida, Papas Fritas y Bebidas Energéticas</h4>
+                            <p>Papas con cheddar, hamburguesas, nachos, Monster Energy y Red Bull directo a tu estación.</p>
+                        </div>
+                    </div>
+
+                    <div class="card-actions">
+                        <div class="accordion-btn">📌 Ver Detalles</div>
+                    </div>
+
+                    <div class="accordion-panel" style="display:none;">
+                        <div class="panel-title">⚡ Carta de Bebidas Energéticas y Comida Gamer</div>
+                        <div class="menu-grid">
+                            <div class="menu-item">
+                                <h5>⚡ Bebidas Energéticas</h5>
+                                <p>• Monster Energy (Original / Mango): <strong>18 BOB</strong><br>
+                                   • Red Bull Lata 250ml: <strong>20 BOB</strong><br>
+                                   • Speed / Volt Gamer: <strong>10 BOB</strong></p>
+                            </div>
+                            <div class="menu-item">
+                                <h5>🍟 Papas & Snacks</h5>
+                                <p>• Papas Gamer Cheddar & Tocino: <strong>25 BOB</strong><br>
+                                   • Salchipapa Especial LevelUp: <strong>25 BOB</strong><br>
+                                   • Nachos Supreme con Queso: <strong>28 BOB</strong></p>
+                            </div>
+                            <div class="menu-item">
+                                <h5>🍔 Burgers & Alitas</h5>
+                                <p>• Burger Doble Carne + Papas: <strong>38 BOB</strong><br>
+                                   • Alitas BBQ (6 pzas + Papas): <strong>35 BOB</strong></p>
+                            </div>
+                        </div>
+                        <div class="price-tag">🔥 Selecciona tu Combo Gamer en el panel calculador de la derecha</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLUMNA DERECHA: COMPONENTE UI #3 (CALCULADOR) Y COMPONENTE UI #4 (RESUMEN) -->
+            <div>
+
+                <!-- COMPONENTE UI #3: CALCULADOR / FORMULARIO + PANEL LATERAL SNACKS -->
+                <div id="calculador" class="ui-box">
+                    <div class="ui-box-header">
+                        <h3>🧮 Calculador & Reserva</h3>
+                        <span class="ui-tag">Componente UI #3</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nombre">👤 Nombre del Jugador:</label>
+                        <input type="text" id="nombre" placeholder="Ej. Carlos Mendoza">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="celular">📱 Celular / WhatsApp (8 dígitos):</label>
+                        <input type="text" id="celular" maxlength="8" placeholder="Ej. 71234567">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="servicio">🎮 Estación de Juego:</label>
+                        <select id="servicio">
+                            <option value="40" data-nombre="Estación PS5">🎮 Estación PS5 (40 BOB/hr)</option>
+                            <option value="25" data-nombre="PC Gamer Pro">💻 PC Gamer Pro (25 BOB/hr)</option>
+                            <option value="15" data-nombre="Cabina Arcade">👾 Cabina Arcade (15 BOB/hr)</option>
+                        </select>
+                    </div>
+
+                    <!-- Input requerido por la Guía Viernes (#hrs) -->
+                    <div class="form-group">
+                        <label for="hrs">⏱️ Horas de Reserva (1 a 8 hrs):</label>
+                        <input type="number" id="hrs" value="1" min="1" max="8">
+                    </div>
+
+                    <!-- Panel UI Lateral: Selector de Snacks (Combo Gamer 1, 2 o 3) -->
+                    <div class="form-group">
+                        <label>🍟 Selector de Snacks & Bebidas Energéticas:</label>
+                        <div class="snack-selector">
+                            <label class="snack-option selected">
+                                <span><input type="radio" name="snack" value="0" data-snack="Sin Snack" checked> Sin Snack Adicional</span>
+                                <strong>+0 BOB</strong>
+                            </label>
+                            <label class="snack-option">
+                                <span><input type="radio" name="snack" value="38" data-snack="Combo Gamer 1 (Papas Cheddar + Monster)"> 🍟⚡ Combo Gamer 1: Papas Cheddar + Monster</span>
+                                <strong>+38 BOB</strong>
+                            </label>
+                            <label class="snack-option">
+                                <span><input type="radio" name="snack" value="30" data-snack="Combo Gamer 2 (Salchipapa + Speed)"> 🍟⚡ Combo Gamer 2: Salchipapa + Speed</span>
+                                <strong>+30 BOB</strong>
+                            </label>
+                            <label class="snack-option">
+                                <span><input type="radio" name="snack" value="52" data-snack="Combo Gamer 3 (Burger Doble + Papas + Red Bull)"> 🍔⚡ Combo Gamer 3: Burger + Papas + Red Bull</span>
+                                <strong>+52 BOB</strong>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COMPONENTE UI #4: RESUMEN DE PEDIDO EN LA MISMA PÁGINA -->
+                <div id="resumen" class="ui-box">
+                    <div class="ui-box-header">
+                        <h3>🧾 Resumen de Pedido</h3>
+                        <span class="ui-tag">Componente UI #4</span>
+                    </div>
+
+                    <ul class="resumen-list">
+                        <li>
+                            <span>Estación Seleccionada:</span>
+                            <strong id="res-estacion">Estación PS5</strong>
+                        </li>
+                        <li>
+                            <span>Tiempo de Juego:</span>
+                            <strong id="res-horas">1 Hora(s) x 40 BOB</strong>
+                        </li>
+                        <li>
+                            <span>Snack & Energizante:</span>
+                            <strong id="res-snack">Sin Snack (0 BOB)</strong>
+                        </li>
+                    </ul>
+
+                    <div class="total-banner">
+                        <h4>Total a Pagar:</h4>
+                        <div class="total-amount"><span id="total">40</span> BOB</div>
+                    </div>
+
+                    <!-- Mensaje de validación si faltan datos del jugador -->
+                    <div id="mensaje-error" class="msg-error"></div>
+
+                    <!-- Paso 1: Botón Reservar (Hace aparecer el Timer en la parte superior derecha) -->
+                    <button id="btnReservar" class="btn-iniciar-reserva">🕒 Reservar (Iniciar Timer 30s)</button>
+
+                    <!-- Paso 2: Botón Confirmar Reserva (Termina el Timer y confirma el pedido) -->
+                    <button id="btnModal" class="btn-confirmar">✅ Confirmar Reserva</button>
+
+                    <!-- Detalle confirmado dentro de la misma página -->
+                    <div id="reserva-confirmada-box" class="reserva-inline-box">
+                        <h4>✅ Detalle de Reserva Registrada</h4>
+                        <div><strong>Jugador:</strong> <span id="conf-jugador">-</span></div>
+                        <div><strong>Servicio:</strong> <span id="conf-servicio">-</span></div>
+                        <div><strong>Snack Gamer:</strong> <span id="conf-snack">-</span></div>
+                        <div><strong>Monto Total:</strong> <span id="conf-monto">-</span></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <footer>
+            Diseño Web II — Proyecto Integrador Jueves (C2-A1) & Viernes (C2-A2) • Ing. Miguel Angel Cruz Ramos • UPDS 2026
+        </footer>
+    </div>
+
+    <!-- =========================================================
+         SCRIPTS JQUERY (JUEVES C2-A1 + VIERNES C2-A2)
+         ========================================================= -->
+    <script>
+        $(document).ready(function() {
+
+            var intervaloTimer = null;
+
+            // ---------------------------------------------------------
+            // 0. APARTADO DE PROMOCIONES ROTATIVAS (CAMBIAN CADA 2 MINUTOS = 120 SEGUNDOS)
+            // ---------------------------------------------------------
+            var promoActual = 0;
+            var totalPromos = $('.promo-slide').length;
+            var segundosPromo = 120; // 2 minutos
+
+            function mostrarPromo(indice) {
+                $('.promo-slide').stop(true, true).fadeOut('fast').removeClass('active-promo');
+                $('.promo-slide[data-index="' + indice + '"]').stop(true, true).fadeIn('fast').addClass('active-promo');
+            }
+
+            // Temporizador que cuenta 2 minutos (02:00) y rota automáticamente entre las 3 promociones
+            setInterval(function() {
+                segundosPromo--;
+
+                var min = Math.floor(segundosPromo / 60);
+                var seg = segundosPromo % 60;
+                var textoReloj = (min < 10 ? '0' + min : min) + ':' + (seg < 10 ? '0' + seg : seg);
+                $('#promo-countdown').text(textoReloj);
+
+                if (segundosPromo <= 0) {
+                    promoActual = (promoActual + 1) % totalPromos;
+                    mostrarPromo(promoActual);
+                    segundosPromo = 120; // Reinicia a 2 minutos para la siguiente promoción
+                }
+            }, 1000);
+
+            // ---------------------------------------------------------
+            // 1. MODO OSCURO / MODO CLARO Y MENÚ HAMBURGUESA (Navbar)
+            // ---------------------------------------------------------
+            $('#btn-theme').click(function() {
+                $('body').toggleClass('dark-mode');
+
+                if ($('body').hasClass('dark-mode')) {
+                    $(this).text('☀️ Modo Claro');
+                } else {
+                    $(this).text('🌙 Modo Oscuro');
+                }
+            });
+
+            $('#btn-hamburger').click(function() {
+                $('#nav-menu').slideToggle('fast');
+            });
+
+            $('.nav-link').click(function() {
+                $('#nav-menu').slideUp('fast');
+            });
+
+            // ---------------------------------------------------------
+            // 2. GUÍA JUEVES: FILTRO (.btn-console) Y ACORDEÓN (.accordion-btn)
+            // ---------------------------------------------------------
+            $('.btn-console').click(function() {
+                var categoria = $(this).attr('data-categoria');
+
+                $('.btn-console').removeClass('active');
+                $(this).addClass('active');
+
+                if (categoria === 'todos') {
+                    $('.equipo-card').fadeIn('fast');
+                } else {
+                    $('.equipo-card').fadeOut('fast');
+                    $('.equipo-card.' + categoria).fadeIn('fast');
+                }
+            });
+
+            $('.accordion-btn').click(function() {
+                $(this).closest('.equipo-card').find('.accordion-panel').slideToggle('slow');
+            });
+
+            // Botón "Alquilar Hora" en cada tarjeta carga la estación en el Calculador
+            $('.btn-alquilar').click(function() {
+                var precio = $(this).attr('data-precio');
+                $('#servicio').val(precio);
+                actualizarCalculador();
+                $('html, body').animate({
+                    scrollTop: $('#calculador').offset().top - 80
+                }, 400);
+            });
+
+            // ---------------------------------------------------------
+            // 3. GUÍA VIERNES: CALCULADOR DINÁMICO EN VIVO (#hrs y Snacks)
+            // ---------------------------------------------------------
+            function actualizarCalculador() {
+                var precioHora = parseInt($('#servicio').val()) || 0;
+                var nombreEstacion = $('#servicio option:selected').attr('data-nombre');
+                var horas = parseInt($('#hrs').val());
+
+                if (isNaN(horas) || horas < 1) {
+                    horas = 1;
+                }
+
+                var radioSnack = $('input[name="snack"]:checked');
+                var precioSnack = parseInt(radioSnack.val()) || 0;
+                var nombreSnack = radioSnack.attr('data-snack');
+
+                var total = (precioHora * horas) + precioSnack;
+
+                // Actualizar Resumen de Pedido en vivo
+                $('#res-estacion').text(nombreEstacion);
+                $('#res-horas').text(horas + ' Hora(s) x ' + precioHora + ' BOB');
+                $('#res-snack').text(nombreSnack + ' (+' + precioSnack + ' BOB)');
+                $('#total').text(total);
+            }
+
+            $('#hrs').on('input', function() {
+                actualizarCalculador();
+            });
+
+            $('#servicio').on('change', function() {
+                actualizarCalculador();
+            });
+
+            $('input[name="snack"]').on('change', function() {
+                $('.snack-option').removeClass('selected');
+                $(this).closest('.snack-option').addClass('selected');
+                actualizarCalculador();
+            });
+
+            // ---------------------------------------------------------
+            // 4. RESERVAR (APARECE TIMER ARRIBA A LA DERECHA) Y CONFIRMAR RESERVA (TERMINA EL TIMER)
+            // ---------------------------------------------------------
+            function mostrarToast(mensaje, colorFondo) {
+                $('#toast-alert')
+                    .css('background', colorFondo || '#10b981')
+                    .css('color', colorFondo === '#ef4444' ? '#ffffff' : '#0f172a')
+                    .html(mensaje)
+                    .stop(true, true)
+                    .slideDown('fast')
+                    .delay(3000)
+                    .fadeOut('slow');
+            }
+
+            function validarDatosJugador() {
+                var nombre = $('#nombre').val().trim();
+                var celular = $('#celular').val().trim();
+                var horas = parseInt($('#hrs').val());
+
+                $('#mensaje-error').hide();
+
+                if (nombre.length < 3) {
+                    $('#mensaje-error').text('⚠️ Ingresa el nombre del jugador (mínimo 3 letras).').slideDown('fast');
+                    return false;
+                }
+
+                if (!/^[67]\d{7}$/.test(celular)) {
+                    $('#mensaje-error').text('⚠️ Ingresa un celular válido de 8 dígitos (empezando con 6 o 7).').slideDown('fast');
+                    return false;
+                }
+
+                if (isNaN(horas) || horas < 1 || horas > 8) {
+                    $('#mensaje-error').text('⚠️ La cantidad de horas debe estar entre 1 y 8.').slideDown('fast');
+                    return false;
+                }
+
+                return true;
+            }
+
+            // PASO 1: Al apretar en "Reservar", recién aparece el Timer en la parte superior derecha
+            $('#btnReservar').click(function() {
+                if (!validarDatosJugador()) {
+                    return;
+                }
+
+                $('#reserva-confirmada-box').hide();
+                clearInterval(intervaloTimer);
+
+                var segundos = 30;
+                $('#mod-timer').text('00:30s');
+
+                // Hacer aparecer el Timer en la parte superior derecha y el botón de Confirmar Reserva
+                $('#box-timer').stop(true, true).slideDown('fast');
+                $('#btnModal').stop(true, true).slideDown('fast');
+
+                intervaloTimer = setInterval(function() {
+                    segundos--;
+                    var formato = segundos < 10 ? '00:0' + segundos + 's' : '00:' + segundos + 's';
+                    $('#mod-timer').text(formato);
+
+                    // Si se acaba el tiempo sin apretar Confirmar Reserva
+                    if (segundos <= 0) {
+                        clearInterval(intervaloTimer);
+                        $('#box-timer').fadeOut('fast');
+                        $('#btnModal').fadeOut('fast');
+                        mostrarToast('⏰ Tarifa Flash Expirada. Vuelve a apretar en Reservar.', '#ef4444');
+                    }
+                }, 1000);
+            });
+
+            // PASO 2: Al apretar en "Confirmar Reserva", recién termina el Timer y se registra el pedido
+            $('#btnModal').click(function() {
+                if (!validarDatosJugador()) {
+                    return;
+                }
+
+                // Terminar el timer y ocultarlo de la esquina superior derecha
+                clearInterval(intervaloTimer);
+                $('#box-timer').fadeOut('fast');
+                $('#btnModal').slideUp('fast');
+
+                var nombre = $('#nombre').val().trim();
+                var celular = $('#celular').val().trim();
+                var horas = parseInt($('#hrs').val());
+                var nombreEstacion = $('#servicio option:selected').attr('data-nombre');
+                var nombreSnack = $('input[name="snack"]:checked').attr('data-snack');
+                var montoTotal = $('#total').text();
+
+                $('#conf-jugador').text(nombre + ' (' + celular + ')');
+                $('#conf-servicio').text(nombreEstacion);
+                $('#conf-snack').text(nombreSnack);
+                $('#conf-monto').text(montoTotal + ' BOB (' + horas + ' Horas)');
+
+                $('#reserva-confirmada-box').hide().slideDown('fast');
+                mostrarToast('🎉 ¡Reserva confirmada para ' + nombre + ' por ' + montoTotal + ' BOB!', '#10b981');
+            });
+
+        });
+    </script>
+</body>
+</html>
