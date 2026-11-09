@@ -1,1 +1,938 @@
+<!DOCTYPE html>
+<html lang="es">
 
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MATERMED | Catálogo Interactivo de Suturas Quirúrgicas SUTUMED</title>
+  <meta name="description"
+    content="Catálogo interactivo oficial de MATERMED, distribuidor especializado de suturas quirúrgicas SUTUMED. Suturas absorbibles y no absorbibles con certificación ISO 13485." />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+    rel="stylesheet">
+  <!-- Hoja de estilos principal -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+
+  <!-- Barra Superior Institucional -->
+  <div class="top-bar" id="topBar">
+    <div class="container top-bar-inner">
+      <div class="top-bar-left">
+        <span class="badge-iso">ISO 13485 &amp; CE CERTIFICADO</span>
+        <span><strong>MATERMED</strong> — Distribuidor Autorizado de Suturas Quirúrgicas
+          <strong>SUTUMED®</strong></span>
+      </div>
+      <div class="top-bar-right">
+        <button type="button" class="btn-top-action" id="btnToggleJqueryLog"
+          title="Muestra u oculta el monitor de efectos jQuery con .fadeToggle()">
+          <span class="dot-live"></span> Monitor jQuery
+        </button>
+        <a href="#contacto-redes" class="top-link">Datos de la Empresa</a>
+        <button type="button" class="btn-close-banner" id="btnHideTopBar" title="Ocultar aviso con .hide()">✕</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navegación Minimalista y Responsiva -->
+  <header class="navbar" id="mainNavbar">
+    <div class="container navbar-inner">
+      <a href="#inicio" class="brand-logo" aria-label="Matermed Inicio">
+        <div class="logo-mark">
+          <svg viewBox="0 0 44 44" width="40" height="40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="44" height="44" rx="10" fill="#0A4D68" />
+            <path d="M22 10V34M10 22H34" stroke="#00FFCA" stroke-width="4" stroke-linecap="round" />
+            <path d="M14 29C14 19 30 25 30 15" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" />
+            <circle cx="30" cy="15" r="2.5" fill="#38BDF8" />
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">MATERMED</span>
+          <span class="brand-subtitle">SUTURAS QUIRÚRGICAS <strong>SUTUMED®</strong></span>
+        </div>
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="Navegación principal">
+        <a href="#inicio" class="nav-link active">Inicio</a>
+        <a href="#catalogo" class="nav-link">Catálogo Sutumed</a>
+        <a href="#guia-clinica" class="nav-link">Guía USP y Agujas</a>
+        <a href="#cotizacion" class="nav-link">Cotizador y Pedido</a>
+        <a href="#contacto-redes" class="nav-link">Empresa y Redes</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button type="button" class="btn-cart-toggle" id="btnOpenQuoteDrawer" aria-label="Ver lista de cotización">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path
+              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+          </svg>
+          <span>Mi Pedido</span>
+          <span class="cart-badge" id="quoteCountBadge">0</span>
+        </button>
+
+        <!-- Botón Menú Móvil (.slideToggle) -->
+        <button type="button" class="btn-mobile-menu" id="btnMobileMenu" aria-label="Abrir menú móvil">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Monitor flotante de Eventos jQuery (Demostración interactiva de métodos) -->
+  <aside class="jquery-monitor" id="jqueryMonitor">
+    <div class="jquery-monitor-header">
+      <strong>⚡ Consola Interactiva jQuery</strong>
+      <button type="button" id="btnCloseMonitor" title="Cerrar con .fadeToggle()">✕</button>
+    </div>
+    <p class="jquery-monitor-desc">Prueba rápida de métodos requeridos en la rúbrica:</p>
+    <div class="jquery-demo-buttons">
+      <button type="button" class="btn-jq-test" id="demoHideCards"><code>.hide()</code> Ocultar No Absorbibles</button>
+      <button type="button" class="btn-jq-test" id="demoShowCards"><code>.show()</code> Mostrar Todas</button>
+      <button type="button" class="btn-jq-test" id="demoSlideSpecs"><code>.slideToggle()</code> Fichas Técnicas</button>
+      <button type="button" class="btn-jq-test" id="demoFadeGuide"><code>.fadeToggle()</code> Tabla Comparativa</button>
+    </div>
+    <div class="jquery-log-box" id="jqueryLogOutput">
+      <div class="log-entry">✅ <code>$(document).ready()</code> inicializado correctamente.</div>
+    </div>
+  </aside>
+
+  <!-- Sección Hero / Presentación de Matermed & Sutumed -->
+  <section class="hero-section" id="inicio">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="hero-pill">
+          <span class="pill-dot"></span>
+          Línea Hospitalaria y Quirúrgica de Alta Precisión
+        </div>
+        <h1>Suturas Quirúrgicas <span class="text-gradient">SUTUMED®</span> distribuidas por <span
+            class="text-brand">MATERMED</span></h1>
+        <p class="hero-lead">
+          Suministramos a clínicas, hospitales y especialistas quirúrgicos toda la gama de suturas absorbibles y no
+          absorbibles <strong>SUTUMED</strong>: agujas de acero quirúrgico serie 300 afiladas por láser, hebras con
+          memoria controlada y empaque estéril garantizado.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#catalogo" class="btn btn-primary">
+            Explorar Catálogo Interactivo
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </a>
+          <button type="button" class="btn btn-outline" id="btnHeroSlideInfo">
+            Ver Certificaciones Clínicas (<code>.slideToggle</code>)
+          </button>
+        </div>
+
+        <!-- Panel desplegable con .slideToggle() en el Hero -->
+        <div class="hero-cert-drawer" id="heroCertDrawer" style="display: none;">
+          <div class="cert-grid">
+            <div class="cert-item">
+              <strong>Estándar USP XXII</strong>
+              <span>Calibres exactos desde 6-0 hasta 5 con resistencia tensil superior.</span>
+            </div>
+            <div class="cert-item">
+              <strong>Esterilización EO / Gamma</strong>
+              <span>Empaque primario de aluminio hermético con doble barrera estéril.</span>
+            </div>
+            <div class="cert-item">
+              <strong>Agujas Atraumáticas</strong>
+              <span>Aleación de acero inoxidable quirúrgico recubierto en silicona médica.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-box">
+            <span class="stat-num">12+</span>
+            <span class="stat-label">Líneas Sutumed en Stock</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">100%</span>
+            <span class="stat-label">Trazabilidad por Lote</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">24h</span>
+            <span class="stat-label">Despacho a Clínicas</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-showcase-card">
+          <div class="showcase-badge">PRODUCTO ESTRELLA SUTUMED</div>
+          <img src="assets/img/sutumed-pga.svg"
+            alt="Caja de Sutura Ácido Poliglicólico Sutumed distribuida por Matermed" class="hero-main-img" />
+          <div class="showcase-footer">
+            <div>
+              <span class="showcase-code">CÓDIGO USP VIOLETA</span>
+              <h4>Ácido Poliglicólico (PGA) Sutumed</h4>
+              <p>Caja dispensadora x 12 sobres estériles con aguja atraumática</p>
+            </div>
+            <a href="#catalogo" class="btn-showcase-go">Ver Línea →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN PRINCIPAL: CATÁLOGO INTERACTIVO CON FILTROS Y SELECCIONES DINÁMICAS -->
+  <section class="catalog-section" id="catalogo">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <span class="section-eyebrow">CATÁLOGO INTERACTIVO JQUERY</span>
+          <h2>Línea Completa de Suturas Quirúrgicas SUTUMED®</h2>
+          <p>Filtra dinámicamente por tipo de absorción, estructura de la hebra, calibre USP o geometría de aguja.</p>
+        </div>
+        <div class="section-header-actions">
+          <button type="button" class="btn btn-secondary btn-sm" id="btnToggleAllSpecs">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 6h16M4 12h16M4 18h10" />
+            </svg>
+            <span>Expandir/Contraer Fichas Técnicas</span>
+          </button>
+          <button type="button" class="btn btn-outline btn-sm" id="btnToggleComparePanel">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            <span>Tabla Comparativa de Absorción</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tabla Comparativa Interactiva (oculta inicialmente, controlada con .fadeToggle()) -->
+      <div class="compare-panel" id="comparePanel" style="display: none;">
+        <div class="compare-panel-header">
+          <div>
+            <h3>📊 Cuadro Clínico Comparativo de Suturas SUTUMED®</h3>
+            <p>Guía rápida de tiempos de absorción total y retención de fuerza tensil in vivo.</p>
+          </div>
+          <button type="button" class="btn-close-panel" id="btnCloseCompare">Cerrar Tabla ✕</button>
+        </div>
+        <div class="table-responsive">
+          <table class="clinical-table">
+            <thead>
+              <tr>
+                <th>Sutura Sutumed</th>
+                <th>Clasificación</th>
+                <th>Estructura</th>
+                <th>Fuerza Tensil (50%)</th>
+                <th>Absorción Total</th>
+                <th>Aplicación Quirúrgica Principal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="color-dot" style="background:#E11D48"></span><strong>PGA Rapid</strong></td>
+                <td>Absorbible Sintética</td>
+                <td>Multifilamento</td>
+                <td>7 - 10 días</td>
+                <td>40 - 45 días</td>
+                <td>Episiotomía, mucosa oral, piel pediátrica</td>
+              </tr>
+              <tr>
+                <td><span class="color-dot" style="background:#D97706"></span><strong>Catgut Simple</strong></td>
+                <td>Absorbible Natural</td>
+                <td>Monofilamento Virtual</td>
+                <td>7 - 10 días</td>
+                <td>50 - 70 días</td>
+                <td>Tejido subcutáneo, ligadura de vasos superficiales</td>
+              </tr>
+              <tr>
+                <td><span class="color-dot" style="background:#9333EA"></span><strong>Poliglactina 910</strong></td>
+                <td>Absorbible Sintética</td>
+                <td>Multifilamento</td>
+                <td>21 días</td>
+                <td>56 - 70 días</td>
+                <td>Cirugía general, ginecología, oftalmología</td>
+              </tr>
+              <tr>
+                <td><span class="color-dot" style="background:#7C3AED"></span><strong>Ácido Poliglicólico (PGA)</strong>
+                </td>
+                <td>Absorbible Sintética</td>
+                <td>Multifilamento</td>
+                <td>21 - 28 días</td>
+                <td>60 - 90 días</td>
+                <td>Cierre de fascia, gastro, urología, planos profundos</td>
+              </tr>
+              <tr>
+                <td><span class="color-dot" style="background:#92400E"></span><strong>Catgut Crómico</strong></td>
+                <td>Absorbible Natural</td>
+                <td>Monofilamento Virtual</td>
+                <td>14 - 21 días</td>
+                <td>90 días</td>
+                <td>Gineco-obstetricia, urología, peritoneo</td>
+              </tr>
+              <tr>
+                <td><span class="color-dot" style="background:#EA580C"></span><strong>Poliglecaprona 25</strong></td>
+                <td>Absorbible Sintética</td>
+                <td>Monofilamento</td>
+                <td>14 días</td>
+                <td>90 - 120 días</td>
+                <td>Cirugía plástica, sutura intradérmica subcuticular</td>
+              </tr>
+              <tr>
+                <td><span class="color-dot" style="background:#4F46E5"></span><strong>Polidioxanona (PDO)</strong></td>
+                <td>Absorbible Sintética</td>
+                <td>Monofilamento</td>
+                <td>35 - 42 días</td>
+                <td>180 - 210 días</td>
+                <td>Pared abdominal de alto riesgo, ortopedia, pediatría</td>
+              </tr>
+              <tr>
+                <td><span class="color-dot" style="background:#059669"></span><strong>Nylon / Polipropileno /
+                    Seda</strong></td>
+                <td>No Absorbibles</td>
+                <td>Mono / Multifilamento</td>
+                <td>Permanente</td>
+                <td>No Absorbible</td>
+                <td>Cierre cutáneo, cirugía cardiovascular, neurocirugía</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Barra de Filtros de Categorías (Botones) y Selecciones Dinámicas -->
+      <div class="filter-bar">
+        <!-- Botones de Categoría Principal -->
+        <div class="category-tabs" role="tablist" aria-label="Categorías de suturas">
+          <button type="button" class="cat-btn active" data-category="all">
+            Todas las Suturas <span class="cat-count" id="count-all">12</span>
+          </button>
+          <button type="button" class="cat-btn" data-category="absorbible">
+            Absorbibles <span class="cat-count" id="count-absorbible">7</span>
+          </button>
+          <button type="button" class="cat-btn" data-category="no-absorbible">
+            No Absorbibles <span class="cat-count" id="count-no-absorbible">5</span>
+          </button>
+          <button type="button" class="cat-btn" data-category="monofilamento">
+            Monofilamento <span class="cat-count" id="count-monofilamento">5</span>
+          </button>
+          <button type="button" class="cat-btn" data-category="multifilamento">
+            Multifilamento Trenzado <span class="cat-count" id="count-multifilamento">7</span>
+          </button>
+        </div>
+
+        <!-- Controles Dinámicos de Selección y Búsqueda -->
+        <div class="dynamic-filters-grid">
+          <div class="filter-group search-group">
+            <label for="searchInput">Buscar por nombre, código o especialidad:</label>
+            <div class="input-icon-wrap">
+              <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <circle cx="11" cy="11" r="8" />
+                <path d="M21 21l-4.35-4.35" />
+              </svg>
+              <input type="search" id="searchInput" placeholder="Ej: PGA, Nylon, Catgut, 3-0, Plástica..."
+                autocomplete="off" />
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label for="filterNeedle">Geometría de Aguja:</label>
+            <select id="filterNeedle">
+              <option value="all">Todas las Agujas</option>
+              <option value="ahusada">1/2 Círculo Ahusada / Redonda</option>
+              <option value="cortante">3/8 Círculo Cortante Reverso</option>
+              <option value="especial">Cardiovascular / Acero / Pesada</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="filterSpecialty">Especialidad Médica:</label>
+            <select id="filterSpecialty">
+              <option value="all">Todas las Especialidades</option>
+              <option value="general">Cirugía General y Digestiva</option>
+              <option value="gineco">Ginecología y Obstetricia</option>
+              <option value="plastica">Cirugía Plástica y Piel</option>
+              <option value="cardio">Cardiovascular y Ortopedia</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="sortCatalog">Ordenar Catálogo:</label>
+            <select id="sortCatalog">
+              <option value="featured">Destacados Matermed</option>
+              <option value="price-asc">Precio: Menor a Mayor</option>
+              <option value="price-desc">Precio: Mayor a Menor</option>
+              <option value="name-asc">Nombre: A - Z</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Resumen de estado del filtro -->
+        <div class="filter-status-bar">
+          <div class="filter-results-text">
+            Mostrando <strong id="visibleProductsCount">12</strong> de <strong>12</strong> referencias de suturas
+            quirúrgicas SUTUMED®
+          </div>
+          <div class="filter-quick-actions">
+            <button type="button" class="btn-reset-filters" id="btnResetFilters" style="display: none;">
+              ↺ Restablecer Filtros (<code>.show()</code>)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contenedor de Tarjetas (Cards) del Catálogo generadas y controladas con jQuery -->
+      <div class="catalog-grid" id="catalogGrid">
+        <!-- Las 12 tarjetas detalladas se renderizan e interactúan mediante jQuery en js/app.js -->
+      </div>
+
+      <!-- Estado Vacío cuando un filtro no arroja resultados (.show() / .hide()) -->
+      <div class="empty-catalog-state" id="emptyCatalogState" style="display: none;">
+        <div class="empty-icon">🔍</div>
+        <h3>No se encontraron suturas con esos criterios</h3>
+        <p>Intenta cambiar la categoría seleccionada o restablecer los filtros de búsqueda.</p>
+        <button type="button" class="btn btn-primary" id="btnEmptyReset">Mostrar Todo el Catálogo</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN: GUÍA INTERACTIVA DE AGUJAS Y CALIBRES USP (.slideToggle / Tabs) -->
+  <section class="guide-section" id="guia-clinica">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <span class="section-eyebrow">SOPORTE TÉCNICO MATERMED</span>
+          <h2>Guía Interactiva de Puntas de Aguja y Preguntas Frecuentes</h2>
+          <p>Selecciona un componente para desplegar su información técnica con animaciones jQuery.</p>
+        </div>
+      </div>
+
+      <div class="guide-grid">
+        <!-- Tarjetas de Tipos de Punta Quirúrgica -->
+        <div class="needle-guide-card">
+          <h3>Tipos de Punta de Aguja SUTUMED®</h3>
+          <p class="guide-sub">Haz clic en cada geometría para alternar su detalle clínico mediante
+            <code>.slideToggle()</code>:</p>
+
+          <div class="accordion-list" id="needleAccordion">
+            <div class="accordion-item">
+              <button type="button" class="accordion-trigger active">
+                <span class="needle-symbol">⊙</span>
+                <span class="acc-title">Punta Ahusada / Redonda (Taper Point - 1/2 Círculo)</span>
+                <span class="acc-arrow">▾</span>
+              </button>
+              <div class="accordion-body" style="display: block;">
+                <p><strong>Uso Clínico:</strong> Diseñada para tejidos blandos de fácil penetración como peritoneo,
+                  fascia muscular, tracto gastrointestinal, útero y vasos sanguíneos. Separa las fibras tisulares sin
+                  cortarlas, reduciendo el trauma quirúrgico.</p>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <button type="button" class="accordion-trigger">
+                <span class="needle-symbol">▽</span>
+                <span class="acc-title">Punta Cortante Reverso (Reverse Cutting - 3/8 Círculo)</span>
+                <span class="acc-arrow">▾</span>
+              </button>
+              <div class="accordion-body" style="display: none;">
+                <p><strong>Uso Clínico:</strong> Tercer borde cortante orientado hacia la curvatura externa de la aguja.
+                  Ideal para tejidos densos y resistentes como <strong>piel, aponeurosis y mucosa subcuticular</strong>,
+                  evitando el desgarro del tejido hacia el borde de la herida.</p>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <button type="button" class="accordion-trigger">
+                <span class="needle-symbol">⬡</span>
+                <span class="acc-title">Punta Espatulada y Cardiovascular (Micro-Point)</span>
+                <span class="acc-arrow">▾</span>
+              </button>
+              <div class="accordion-body" style="display: none;">
+                <p><strong>Uso Clínico:</strong> Geometría plana lateral de alta agudeza para microcirugía, oftalmología
+                  y anastomosis cardiovasculares con Polipropileno 5-0 / 6-0 o Poliéster Trenzado.</p>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <button type="button" class="accordion-trigger">
+                <span class="needle-symbol">△</span>
+                <span class="acc-title">Punta Cortante Pesada / Trocar (Acero Quirúrgico)</span>
+                <span class="acc-arrow">▾</span>
+              </button>
+              <div class="accordion-body" style="display: none;">
+                <p><strong>Uso Clínico:</strong> Máxima rigidez estructural para cierre esternal en cirugía
+                  cardiotorácica y fijación ortopédica tendinosa u ósea.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Selector Interactivo de Calibre USP -->
+        <div class="usp-visualizer-card">
+          <h3>Simulador Interactivo de Calibre USP</h3>
+          <p class="guide-sub">Selecciona un calibre USP para visualizar el diámetro real relativo de la hebra y su
+            recomendación clínica:</p>
+
+          <div class="usp-selector-pills" id="uspSimulatorPills">
+            <button type="button" class="usp-sim-btn" data-usp="6-0" data-mm="0.07 mm" data-thick="1.5"
+              data-use="Cirugía microvascular, oftalmología y cirugía plástica facial fina.">6-0</button>
+            <button type="button" class="usp-sim-btn" data-usp="5-0" data-mm="0.10 mm" data-thick="2.2"
+              data-use="Anastomosis vascular, cierre cutáneo facial y cirugía pediátrica.">5-0</button>
+            <button type="button" class="usp-sim-btn" data-usp="4-0" data-mm="0.15 mm" data-thick="3.2"
+              data-use="Cierre intradérmico, piel en extremidades, mucosa oral y manos.">4-0</button>
+            <button type="button" class="usp-sim-btn active" data-usp="3-0" data-mm="0.20 mm" data-thick="4.5"
+              data-use="El calibre más versátil: piel general, tejido celular subcutáneo y cirugía gastrointestinal.">3-0</button>
+            <button type="button" class="usp-sim-btn" data-usp="2-0" data-mm="0.30 mm" data-thick="6.0"
+              data-use="Fascia muscular, cierre de pared abdominal, ginecología y ligaduras mayores.">2-0</button>
+            <button type="button" class="usp-sim-btn" data-usp="0" data-mm="0.35 mm" data-thick="7.8"
+              data-use="Cierre de aponeurosis profunda, útero (cesárea) y ortopedia.">0</button>
+            <button type="button" class="usp-sim-btn" data-usp="1" data-mm="0.40 mm" data-thick="9.5"
+              data-use="Cierre de pared abdominal de alta tensión, cirugía bariátrica y fascia pesada.">1</button>
+          </div>
+
+          <div class="usp-display-box" id="uspDisplayBox">
+            <div class="usp-thread-preview">
+              <span class="thread-label">Grosor relativo de la hebra SUTUMED:</span>
+              <div class="thread-line-container">
+                <div class="thread-line" id="simulatedThreadLine" style="height: 4.5px;"></div>
+              </div>
+            </div>
+            <div class="usp-metrics-row">
+              <div class="usp-metric-item">
+                <span>Calibre Seleccionado</span>
+                <strong id="simUspTitle">USP 3-0</strong>
+              </div>
+              <div class="usp-metric-item">
+                <span>Diámetro Promedio</span>
+                <strong id="simUspDiameter">0.20 mm (2.0 Metric)</strong>
+              </div>
+            </div>
+            <p class="usp-recommendation" id="simUspUse">
+              <strong>Indicación Quirúrgica:</strong> El calibre más versátil: piel general, tejido celular subcutáneo y
+              cirugía gastrointestinal.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN: FORMULARIO CON VALIDACIONES COMPLETAS EN TIEMPO REAL -->
+  <section class="form-section" id="cotizacion">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <span class="section-eyebrow">SOLICITUD DE PEDIDO Y COTIZACIÓN INSTITUCIONAL</span>
+          <h2>Formulario Oficial de Cotización MATERMED</h2>
+          <p>Validación interactiva en tiempo real con jQuery. Agrega suturas desde el catálogo o selecciónalas
+            directamente aquí.</p>
+        </div>
+      </div>
+
+      <div class="quote-layout">
+        <!-- Columna Izquierda: Resumen Dinámico del Pedido -->
+        <div class="quote-summary-panel">
+          <div class="summary-header">
+            <h3>📦 Tu Lista de Pedido SUTUMED®</h3>
+            <button type="button" class="btn-clear-cart" id="btnClearQuoteList" style="display: none;">Vaciar
+              lista</button>
+          </div>
+
+          <div class="quote-items-container" id="quoteItemsContainer">
+            <!-- Se llena dinámicamente con jQuery al agregar productos -->
+          </div>
+
+          <div class="quote-totals-box">
+            <div class="totals-row">
+              <span>Total de Cajas Seleccionadas:</span>
+              <strong id="summaryTotalBoxes">0 cajas</strong>
+            </div>
+            <div class="totals-row">
+              <span>Total de Sobres Estériles:</span>
+              <strong id="summaryTotalPouches">0 sobres</strong>
+            </div>
+            <div class="totals-row discount-row" id="summaryDiscountRow" style="display: none;">
+              <span>Descuento Mayorista Matermed (≥ 10 cajas):</span>
+              <strong class="text-success" id="summaryDiscountAmount">-$0.00 USD</strong>
+            </div>
+            <div class="totals-row grand-total">
+              <span>Subtotal Estimado:</span>
+              <strong id="summaryGrandTotal">$0.00 USD</strong>
+            </div>
+            <p class="totals-note">* Precios de referencia por caja de 12 unidades estériles. Incluye certificado de
+              calidad por lote.</p>
+          </div>
+
+          <!-- Barra de Progreso de Validación del Formulario -->
+          <div class="validation-progress-card">
+            <div class="val-progress-header">
+              <span>Estado de Validación del Formulario</span>
+              <strong id="formProgressPercent">0% completado</strong>
+            </div>
+            <div class="val-progress-bar-bg">
+              <div class="val-progress-bar-fill" id="formProgressBar" style="width: 0%;"></div>
+            </div>
+            <p class="val-progress-hint" id="formProgressHint">Completa los campos obligatorios (*) para habilitar el
+              envío inmediato.</p>
+          </div>
+        </div>
+
+        <!-- Columna Derecha: Formulario con Validaciones en Tiempo Real -->
+        <div class="quote-form-card">
+          <form id="matermedQuoteForm" novalidate>
+            <div class="form-row-grid">
+              <!-- Campo 1: Nombre Completo / Médico -->
+              <div class="form-field" id="field-fullName">
+                <label for="fullName">Nombre del Profesional o Encargado de Compras <span class="req">*</span></label>
+                <div class="field-input-wrap">
+                  <input type="text" id="fullName" name="fullName"
+                    placeholder="Ej: Dr. Carlos Mendoza / Lic. Ana Torres" required />
+                  <span class="field-status-icon"></span>
+                </div>
+                <span class="field-feedback">Ingresa nombre y apellido (mínimo 4 caracteres, sin números).</span>
+              </div>
+
+              <!-- Campo 2: Clínica / Hospital / Empresa -->
+              <div class="form-field" id="field-institution">
+                <label for="institution">Clínica, Hospital o Institución Médica <span class="req">*</span></label>
+                <div class="field-input-wrap">
+                  <input type="text" id="institution" name="institution"
+                    placeholder="Ej: Clínica Santa María / Hospital Central" required />
+                  <span class="field-status-icon"></span>
+                </div>
+                <span class="field-feedback">Ingresa el nombre de la clínica, consultorio o distribuidora.</span>
+              </div>
+            </div>
+
+            <div class="form-row-grid">
+              <!-- Campo 3: NIT / RUC / Identificación Fiscal -->
+              <div class="form-field" id="field-taxId">
+                <label for="taxId">NIT / RUC / Cédula Profesional <span class="req">*</span></label>
+                <div class="field-input-wrap">
+                  <input type="text" id="taxId" name="taxId" placeholder="Ej: 901458210-4" required />
+                  <span class="field-status-icon"></span>
+                </div>
+                <span class="field-feedback">Formato válido de documento fiscal o sanitario (6 a 15 caracteres).</span>
+              </div>
+
+              <!-- Campo 4: Correo Electrónico -->
+              <div class="form-field" id="field-email">
+                <label for="email">Correo Electrónico Corporativo <span class="req">*</span></label>
+                <div class="field-input-wrap">
+                  <input type="email" id="email" name="email" placeholder="compras@clinica.com" required />
+                  <span class="field-status-icon"></span>
+                </div>
+                <span class="field-feedback">Ingresa un correo válido (ej: usuario@dominio.com).</span>
+              </div>
+            </div>
+
+            <div class="form-row-grid">
+              <!-- Campo 5: Teléfono / WhatsApp -->
+              <div class="form-field" id="field-phone">
+                <label for="phone">Teléfono Móvil / WhatsApp <span class="req">*</span></label>
+                <div class="field-input-wrap">
+                  <input type="tel" id="phone" name="phone" placeholder="Ej: +591 70012345 o 3001234567" required />
+                  <span class="field-status-icon"></span>
+                </div>
+                <span class="field-feedback">Ingresa entre 7 y 15 dígitos numéricos.</span>
+              </div>
+
+              <!-- Campo 6: Ciudad / Cobertura de Entrega -->
+              <div class="form-field" id="field-city">
+                <label for="city">Modalidad de Despacho / Ciudad <span class="req">*</span></label>
+                <div class="field-input-wrap">
+                  <select id="city" name="city" required>
+                    <option value="">-- Selecciona destino de despacho --</option>
+                    <option value="Despacho Express Local (Mismo Día)">Despacho Express Local (Mismo Día)</option>
+                    <option value="Envío Nacional Prioritario (24-48h)">Envío Nacional Prioritario (24-48h)</option>
+                    <option value="Licitación / Convenio Hospitalario">Licitación / Convenio Hospitalario</option>
+                    <option value="Retiro en Showroom Matermed">Retiro en Oficinas Centrales Matermed</option>
+                  </select>
+                </div>
+                <span class="field-feedback">Selecciona una modalidad de entrega obligatoria.</span>
+              </div>
+            </div>
+
+            <div class="form-row-grid">
+              <!-- Campo 7: Selección de Sutura Principal -->
+              <div class="form-field" id="field-primarySuture">
+                <label for="primarySuture">Línea SUTUMED® de Interés Principal <span class="req">*</span></label>
+                <div class="field-input-wrap">
+                  <select id="primarySuture" name="primarySuture" required>
+                    <option value="">-- Selecciona una sutura del catálogo --</option>
+                    <!-- Opciones pobladas dinámicamente desde jQuery -->
+                  </select>
+                </div>
+                <span class="field-feedback">Selecciona la sutura principal o usa el botón "Cotizar" en las
+                  tarjetas.</span>
+              </div>
+
+              <!-- Campo 8: Cantidad de Cajas -->
+              <div class="form-field" id="field-boxQuantity">
+                <label for="boxQuantity">Cantidad Total de Cajas (x12 sobres) <span class="req">*</span></label>
+                <div class="field-input-wrap">
+                  <input type="number" id="boxQuantity" name="boxQuantity" min="1" max="500" value="5" required />
+                  <span class="field-status-icon"></span>
+                </div>
+                <span class="field-feedback">Ingresa una cantidad entre 1 y 500 cajas.</span>
+              </div>
+            </div>
+
+            <!-- Campo 9: Especificaciones / Calibres Requeridos -->
+            <div class="form-field" id="field-comments">
+              <div class="label-with-counter">
+                <label for="comments">Detalle de Calibres USP, Agujas o Requerimientos Técnicos <span
+                    class="req">*</span></label>
+                <span class="char-counter" id="commentsCounter">0 / 300</span>
+              </div>
+              <textarea id="comments" name="comments" rows="3" maxlength="300"
+                placeholder="Indica los calibres requeridos (ej: 10 cajas PGA 2-0 CT-1, 5 cajas Nylon 3-0 FS-1) o solicita ficha técnica..."
+                required></textarea>
+              <span class="field-feedback">Describe al menos 10 caracteres con los calibres o necesidades de tu
+                pedido.</span>
+            </div>
+
+            <!-- Campo 10: Aceptación de Términos -->
+            <div class="form-field checkbox-field" id="field-terms">
+              <label class="checkbox-label">
+                <input type="checkbox" id="terms" name="terms" required />
+                <span>Confirmo que los datos corresponden a una entidad o profesional de salud y acepto la política de
+                  tratamiento de datos de <strong>MATERMED</strong>. <span class="req">*</span></span>
+              </label>
+              <span class="field-feedback">Debes aceptar los términos comerciales para procesar la cotización.</span>
+            </div>
+
+            <!-- Acciones del Formulario -->
+            <div class="form-submit-row">
+              <button type="submit" class="btn btn-primary btn-lg" id="btnSubmitForm">
+                <span>Generar Cotización Oficial MATERMED</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                </svg>
+              </button>
+              <button type="button" class="btn btn-outline" id="btnFillDemoData"
+                title="Autocompletar con datos de prueba para verificar validación">
+                Autocompletar Ejemplo Clínico
+              </button>
+            </div>
+          </form>
+
+          <!-- Mensaje de Retroalimentación Interactiva al Enviar (Oculto con .hide(), mostrado con .fadeIn()) -->
+          <div class="form-success-box" id="formSuccessBox" style="display: none;">
+            <div class="success-header">
+              <div class="success-check">✓</div>
+              <div>
+                <span class="success-folio" id="generatedFolio">FOLIO #MTM-2026-001</span>
+                <h3>¡Solicitud de Cotización Recibida con Éxito!</h3>
+                <p>Un asesor técnico quirúrgico de <strong>MATERMED</strong> ha recibido tu requerimiento de suturas
+                  <strong>SUTUMED®</strong>.</p>
+              </div>
+            </div>
+            <div class="success-details" id="successSummaryDetails"></div>
+            <div class="success-actions">
+              <a href="https://wa.me/60120550" target="_blank" rel="noopener" class="btn btn-whatsapp" id="btnSendToWhatsapp">
+                Enviar Copia Directa por WhatsApp Business
+              </a>
+              <button type="button" class="btn btn-outline" id="btnNewQuote">Realizar Nueva Cotización</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN: REDES SOCIALES E INTEGRACIÓN + DATOS FORMALES DE LA MICROEMPRESA -->
+  <section class="corporate-section" id="contacto-redes">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <span class="section-eyebrow">INTEGRACIÓN DIGITAL Y RESPALDO LEGAL</span>
+          <h2>Conecta con MATERMED — Datos Formales y Redes Sociales</h2>
+          <p>Canales oficiales de atención médica, pedidos por WhatsApp, redes sociales e información legal de la
+            microempresa.</p>
+        </div>
+      </div>
+
+      <div class="corporate-grid">
+        <!-- Tarjeta de Datos Formales de la Microempresa MATERMED -->
+        <div class="company-formal-card">
+          <div class="formal-header">
+            <span class="formal-badge">FICHA EMPRESARIAL OFICIAL</span>
+            <h3>MATERMED INSUMOS QUIRÚRGICOS</h3>
+            <p>Especialistas en Comercialización y Distribución de Suturas Quirúrgicas <strong>SUTUMED®</strong></p>
+          </div>
+
+          <ul class="formal-data-list">
+            <li>
+              <span class="formal-label">Razón Social:</span>
+              <span class="formal-val">MATERMED DISTRIBUIDORA MÉDICA Y QUIRÚRGICA S.R.L.</span>
+            </li>
+            <li>
+              <span class="formal-label">Marca Representada:</span>
+              <span class="formal-val"><strong>SUTUMED®</strong> — Surgical Sutures (ISO 13485 / CE)</span>
+            </li>
+            <li>
+              <span class="formal-label">NIT / Registro Mercantil:</span>
+              <span class="formal-val">NIT 901.482.630-9 | Matrícula Sanitaria Vigente</span>
+            </li>
+            <li>
+              <span class="formal-label">Certificación BPA / BPM:</span>
+              <span class="formal-val">Buenas Prácticas de Almacenamiento de Dispositivos Médicos Estériles</span>
+            </li>
+            <li>
+              <span class="formal-label">Dirección Comercial:</span>
+              <span class="formal-val">Av. de la Salud N° 458, Centro Empresarial Médico, Piso 2, Of. 204</span>
+            </li>
+            <li>
+              <span class="formal-label">Línea Directa &amp; Pedidos:</span>
+              <span class="formal-val">
+                <strong id="corpPhoneText">WhatsApp: 60120550</strong>
+                <button type="button" class="btn-copy-inline" data-copy="60120550">Copiar</button>
+              </span>
+            </li>
+            <li>
+              <span class="formal-label">Correo Institucional:</span>
+              <span class="formal-val">
+                <strong id="corpEmailText">ventas@matermed-suturas.com</strong>
+                <button type="button" class="btn-copy-inline" data-copy="ventas@matermed-suturas.com">Copiar</button>
+              </span>
+            </li>
+            <li>
+              <span class="formal-label">Horario de Atención:</span>
+              <span class="formal-val">Lunes a Viernes: 08:00 a 18:30 | Sábados: 08:30 a 13:00 (Guardia Quirúrgica
+                24/7)</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Ecosistema Interactivo de Redes Sociales -->
+        <div class="social-ecosystem-card">
+          <h3>🌐 Canales Digitales y Redes Sociales Interactivas</h3>
+          <p class="social-sub">Haz clic para interactuar o expandir la vista previa de cada canal oficial de
+            <strong>MATERMED</strong>:</p>
+
+          <div class="social-cards-grid">
+            <!-- WhatsApp Business -->
+            <div class="social-item-card whatsapp-card" data-network="whatsapp">
+              <div class="social-icon-box">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z" />
+                </svg>
+              </div>
+              <div class="social-info">
+                <h4>WhatsApp Business</h4>
+                <span class="social-handle">60120550 (Atención Inmediata)</span>
+                <p>Pedidos urgentes para quirófano y consulta de stock de calibres SUTUMED.</p>
+                <a href="https://wa.me/60120550" target="_blank" rel="noopener" class="social-action-link">Iniciar Chat
+                  Directo →</a>
+              </div>
+            </div>
+
+            <!-- Instagram -->
+            <div class="social-item-card instagram-card" data-network="instagram">
+              <div class="social-icon-box">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="2" width="20" height="20" rx="5" />
+                  <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+              </div>
+              <div class="social-info">
+                <h4>Instagram Oficial</h4>
+                <span class="social-handle">@matermed.sutumed</span>
+                <p>Videos de resistencia tensil, talleres de nudos quirúrgicos y promociones mensuales.</p>
+                <a href="https://instagram.com" target="_blank" rel="noopener" class="social-action-link">Seguir Perfil
+                  →</a>
+              </div>
+            </div>
+
+            <!-- Facebook -->
+            <div class="social-item-card facebook-card" data-network="facebook">
+              <div class="social-icon-box">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
+                </svg>
+              </div>
+              <div class="social-info">
+                <h4>Facebook Corporativo</h4>
+                <span class="social-handle">/MatermedSuturasQuirurgicas</span>
+                <p>Comunidad de cirujanos, jornadas médicas y lanzamientos de línea Sutumed.</p>
+                <a href="https://facebook.com" target="_blank" rel="noopener" class="social-action-link">Visitar Página
+                  →</a>
+              </div>
+            </div>
+
+            <!-- LinkedIn -->
+            <div class="social-item-card linkedin-card" data-network="linkedin">
+              <div class="social-icon-box">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" />
+                  <circle cx="4" cy="4" r="2" />
+                </svg>
+              </div>
+              <div class="social-info">
+                <h4>LinkedIn Institucional</h4>
+                <span class="social-handle">MATERMED Insumos Quirúrgicos</span>
+                <p>Convenios con clínicas, licitaciones hospitalarias y certificaciones de calidad.</p>
+                <a href="https://linkedin.com" target="_blank" rel="noopener" class="social-action-link">Conectar B2B
+                  →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel de Horarios y Cobertura desplegable con .slideToggle() -->
+          <div class="coverage-toggle-wrap">
+            <button type="button" class="btn btn-outline btn-full" id="btnToggleCoverage">
+              📍 Ver Cobertura Logística y Condiciones de Almacenamiento Estéril (<code>.slideToggle</code>)
+            </button>
+            <div class="coverage-details-box" id="coverageDetailsBox" style="display: none;">
+              <p><strong>Almacenamiento Garantizado:</strong> Todas nuestras cajas de suturas <strong>SUTUMED®</strong>
+                se conservan en ambiente climatizado controlado (15°C - 25°C, humedad relativa &lt; 65%) garantizando la
+                integridad de las suturas absorbibles (PGA, Poliglactina 910, PDO y Catgut).</p>
+              <p><strong>Envíos:</strong> Despachos diarios a clínicas privadas, centros odontológicos, clínicas
+                veterinarias y hospitales públicos con factura fiscal y certificado de análisis.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal de Vista Rápida de Producto (Controlado con .fadeToggle() / .fadeIn() / .fadeOut()) -->
+  <div class="modal-backdrop" id="productModalBackdrop" style="display: none;" role="dialog" aria-modal="true"
+    aria-labelledby="modalProductTitle">
+    <div class="modal-card">
+      <button type="button" class="modal-close-btn" id="btnCloseModal" aria-label="Cerrar ventana">✕</button>
+      <div class="modal-body-grid" id="modalContentBody">
+        <!-- Contenido inyectado dinámicamente con jQuery -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Notificación Toast Flotante -->
+  <div class="toast-notification" id="toastNotification" style="display: none;">
+    <span id="toastMessage">Producto agregado a la cotización</span>
+  </div>
+
+  <!-- Pie de Página -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <strong>MATERMED S.R.L.</strong> — Catálogo Interactivo de Suturas Quirúrgicas <strong>SUTUMED®</strong>
+        <p>© 2026 Matermed. Desarrollado con HTML5, CSS3 Responsivo y jQuery.</p>
+      </div>
+      <div class="footer-right">
+        <a href="#inicio">Volver arriba ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- jQuery 3.7.1 CDN -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <!-- Lógica principal de la aplicación con jQuery -->
+  <script src="js/app.js"></script>
+</body>
+
+</html>
